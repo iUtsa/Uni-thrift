@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-indigo-600 rounded-lg shadow-lg overflow-hidden mb-8">
+    <div class="container mx-auto px-6 py-16 flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 mb-10 md:mb-0">
+            <h1 class="text-4xl font-bold text-white leading-tight mb-4">
+                Buy, Sell, and Trade with Your Fellow Students
+            </h1>
+            <p class="text-indigo-100 text-lg mb-8">
+                The trusted marketplace exclusively for university students. Find textbooks, electronics, furniture and more at affordable prices.
+            </p>
+            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="{{ url_for('main.search') }}" 
+                   class="bg-white text-indigo-600 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300 ease-in-out shadow-md text-center">
+                    Browse Listings
+                </a>
+                <a href="{{ url_for('product.create') }}" 
+                   class="bg-indigo-800 text-white font-semibold py-3 px-6 rounded-lg hover:bg-indigo-700 transition duration-300 ease-in-out shadow-md text-center">
+                    Sell an Item
+                </a>
+            </div>
+        </div>
+        <div class="md:w-1/2 flex justify-center">
+            <img src="{{ url_for('static', filename='img/hero-image.svg') }}" alt="Students trading items" class="max-w-full h-auto">
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="mb-12">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Categories</h2>
+        <a href="{{ url_for('main.search') }}" class="text-indigo-600 hover:text-indigo-800">View All</a>
+    </div>
+    
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        {% for category in categories %}
+        <a href="{{ url_for('main.search', category=category.id) }}" 
+           class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition duration-300 ease-in-out text-center">
+            <div class="bg-indigo-100 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-folder text-indigo-600 text-xl"></i>
+            </div>
+            <h3 class="font-medium text-gray-800">{{ category.name }}</h3>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="mb-12">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Featured Products</h2>
+        <a href="{{ url_for('main.search', sort='popular') }}" class="text-indigo-600 hover:text-indigo-800">View All</a>
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for product in featured_products %}
+        <a href="{{ url_for('product.detail', id=product.id) }}" class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300 ease-in-out">
+            <div class="h-48 bg-gray-200 overflow-hidden">
+                {% if product.images %}
+                <img src="{{ url_for('static', filename='uploads/products/' + product.images[0].file_name) }}" 
+                     alt="{{ product.title }}" class="w-full h-full object-cover">
+                {% else %}
+                <div class="w-full h-full flex items-center justify-center bg-gray-200">
+                    <i class="fas fa-image text-gray-400 text-4xl"></i>
+                </div>
+                {% endif %}
+            </div>
+            <div class="p-4">
+                <h3 class="font-semibold text-lg text-gray-800 mb-2 truncate">{{ product.title }}</h3>
+                <div class="flex justify-between items-center">
+                    <p class="text-indigo-600 font-bold">${{ product.price }}</p>
+                    <span class="text-sm text-gray-500">{{ product.condition }}</span>
+                </div>
+                <div class="mt-3 flex justify-between items-center text-sm text-gray-500">
+                    <span>{{ product.seller.university }}</span>
+                    <span>{{ product.created_date.strftime('%b %d') }}</span>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Recent Products Section -->
+<section class="mb-12">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Recently Added</h2>
+        <a href="{{ url_for('main.search', sort='newest') }}" class="text-indigo-600 hover:text-indigo-800">View All</a>
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for product in recent_products %}
+        <a href="{{ url_for('product.detail', id=product.id) }}" class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300 ease-in-out">
+            <div class="h-48 bg-gray-200 overflow-hidden">
+                {% if product.images %}
+                <img src="{{ url_for('static', filename='uploads/products/' + product.images[0].file_name) }}" 
+                     alt="{{ product.title }}" class="w-full h-full object-cover">
+                {% else %}
+                <div class="w-full h-full flex items-center justify-center bg-gray-200">
+                    <i class="fas fa-image text-gray-400 text-4xl"></i>
+                </div>
+                {% endif %}
+            </div>
+            <div class="p-4">
+                <h3 class="font-semibold text-lg text-gray-800 mb-2 truncate">{{ product.title }}</h3>
+                <div class="flex justify-between items-center">
+                    <p class="text-indigo-600 font-bold">${{ product.price }}</p>
+                    <span class="text-sm text-gray-500">{{ product.condition }}</span>
+                </div>
+                <div class="mt-3 flex justify-between items-center text-sm text-gray-500">
+                    <span>{{ product.seller.university }}</span>
+                    <span>{{ product.created_date.strftime('%b %d') }}</span>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="mb-12 bg-gray-100 rounded-lg p-8">
+    <h2 class="text-2xl font-bold text-gray-800 mb-8 text-center">How It Works</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center">
+            <div class="bg-indigo-100 rounded-full h-20 w-20 flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-user-plus text-indigo-600 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Create an Account</h3>
+            <p class="text-gray-600">Sign up with your university email to join our trusted student marketplace community.</p>
+        </div>
+        
+        <div class="text-center">
+            <div class="bg-indigo-100 rounded-full h-20 w-20 flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-search text-indigo-600 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Find What You Need</h3>
+            <p class="text-gray-600">Browse listings from your fellow students or post items you want to sell.</p>
+        </div>
+        
+        <div class="text-center">
+            <div class="bg-indigo-100 rounded-full h-20 w-20 flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-handshake text-indigo-600 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Make the Deal</h3>
+            <p class="text-gray-600">Connect with other students, arrange meetups on campus, and complete your transaction.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="mb-8">
+    <h2 class="text-2xl font-bold text-gray-800 mb-8 text-center">What Students Say</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="flex items-center mb-4">
+                <div class="mr-4">
+                    <img src="{{ url_for('static', filename='img/avatar-1.jpg') }}" alt="Student" class="h-12 w-12 rounded-full">
+                </div>
+                <div>
+                    <h4 class="font-semibold">Alex Johnson</h4>
+                    <p class="text-gray-500 text-sm">Computer Science, MIT</p>
+                </div>
+            </div>
+            <p class="text-gray-600">"I found a great deal on a barely used MacBook Pro that saved me hundreds of dollars. The process was super smooth!"</p>
+            <div class="mt-3 text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="flex items-center mb-4">
+                <div class="mr-4">
+                    <img src="{{ url_for('static', filename='img/avatar-2.jpg') }}" alt="Student" class="h-12 w-12 rounded-full">
+                </div>
+                <div>
+                    <h4 class="font-semibold">Sophia Martinez</h4>
+                    <p class="text-gray-500 text-sm">Business, Stanford</p>
+                </div>
+            </div>
+            <p class="text-gray-600">"Sold all my textbooks from last semester in just two days! Made back almost half of what I paid for them originally."</p>
+            <div class="mt-3 text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="flex items-center mb-4">
+                <div class="mr-4">
+                    <img src="{{ url_for('static', filename='img/avatar-3.jpg') }}" alt="Student" class="h-12 w-12 rounded-full">
+                </div>
+                <div>
+                    <h4 class="font-semibold">Michael Wei</h4>
+                    <p class="text-gray-500 text-sm">Engineering, UC Berkeley</p>
+                </div>
+            </div>
+            <p class="text-gray-600">"Found a roommate to share an apartment with and bought all the furniture we needed right here on the platform."</p>
+            <div class="mt-3 text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="bg-indigo-600 rounded-lg p-8 text-center text-white">
+    <h2 class="text-3xl font-bold mb-4">Ready to Join Our Student Marketplace?</h2>
+    <p class="text-indigo-100 mb-6 max-w-2xl mx-auto">Connect with thousands of students at your university and start buying and selling today.</p>
+    <a href="{{ url_for('auth.register') }}" class="inline-block bg-white text-indigo-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition duration-300 ease-in-out shadow-md">
+        Sign Up Now
+    </a>
+</section>
+{% endblock %}

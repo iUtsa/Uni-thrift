@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.title }}{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+    <div class="p-6">
+        <div class="flex flex-col md:flex-row -mx-6">
+            <!-- Product Images -->
+            <div class="md:w-1/2 px-6 mb-6 md:mb-0">
+                <div class="mb-4 rounded-lg overflow-hidden bg-gray-200" id="main-image-container">
+                    {% if product.images %}
+                        <img src="{{ url_for('static', filename='uploads/products/' + product.images[0].file_name) }}" 
+                             alt="{{ product.title }}" class="w-full h-auto" id="main-image">
+                    {% else %}
+                        <div class="w-full h-64 flex items-center justify-center bg-gray-200">
+                            <i class="fas fa-image text-gray-400 text-6xl"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                {% if product.images|length > 1 %}
+                <div class="flex justify-start overflow-x-auto -mx-1">
+                    {% for image in product.images %}
+                    <div class="px-1 w-24">
+                        <div class="border rounded cursor-pointer overflow-hidden {% if loop.first %}border-indigo-500{% endif %}"
+                             onclick="changeMainImage('{{ url_for('static', filename='uploads/products/' + image.file_name) }}', this)">
+                            <img src="{{ url_for('static', filename='uploads/products/' + image.file_name) }}" 
+                                 alt="{{ product.title }}" class="w-full h-auto">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Product Details -->
+            <div class="md:w-1/2 px-6">
+                <nav class="flex mb-4 text-sm text-gray-500" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                        <li class="inline-flex items-center">
+                            <a href="{{ url_for('main.index') }}" class="hover:text-indigo-600">Home</a>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-3 h-3 mx-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <a href="{{ url_for('main.search', category=product.category_id) }}" class="hover:text-indigo-600">{{ product.category.name }}</a>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-3 h-3 mx-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-gray-400">{{ product.title|truncate(20) }}</span>
+                        </li>
+                    </ol>
+                </nav>
+                
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ product.title }}</h1>
+                
+                <div class="flex items-center mb-4">
+                    <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded">{{ product.condition }}</span>
+                    <span class="text-gray-500 text-sm ml-4">
+                        <i class="far fa-eye mr-1"></i> {{ product.views }} views
+                    </span>
+                    <span class="text-gray-500 text-sm ml-4">
+                        <i class="far fa-calendar-alt mr-1"></i> Listed {{ product.created_date.strftime('%b %d, %Y') }}
+                    </span>
+                </div>
+                
+                <div class="text-2xl font-bold text-indigo-600 mb-4">${{ product.price }}</div>
+                
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Description</h3>
+                    <p class="text-gray-600 whitespace-pre-line">{{ product.description }}</p>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="flex flex-wrap">
+                        <div class="w-1/2">
+                            <h3 class="text-sm font-semibold text-gray-800 mb-1">Location</h3>
+                            <p class="text-gray-600">{{ product.location }}</p>
+                        </div>
+                        <div class="w-1/2">
+                            <h3 class="text-sm font-semibold text-gray-800 mb-1">Category</h3>
+                            <p class="text-gray-600">{{ product.category.name }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-b border-gray-200 py-4 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Seller Information</h3>
+                    <div class="flex items-center">
+                        <img src="{{ url_for('static', filename='uploads/profiles/' + product.seller.profile_image) }}" 
+                             alt="{{ product.seller.username }}" class="h-12 w-12 rounded-full mr-4">
+                        <div>
+                            <p class="font-semibold text-gray-800">{{ product.seller.first_name }} {{ product.seller.last_name }}</p>
+                            <p class="text-gray-600 text-sm">{{ product.seller.university }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                {% if current_user.is_authenticated and current_user.id != product.seller_id %}
+                <form action="{{ url_for('order.add_to_cart', id=product.id) }}" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="flex items-center mb-4">
+                        <label for="quantity" class="block text-gray-700 font-medium mr-4">Quantity:</label>
+                        <select name="quantity" id="quantity" class="border rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                            {% for i in range(1, 6) %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition duration-300 flex items-center justify-center">
+                        <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                    </button>
+                </form>
+                {% elif current_user.is_authenticated and current_user.id == product.seller_id %}
+                <div class="flex space-x-4">
+                    <a href="{{ url_for('product.edit', id=product.id) }}" class="w-1/2 bg-indigo-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition duration-300 flex items-center justify-center">
+                        <i class="fas fa-edit mr-2"></i> Edit
+                    </a>
+                    <form action="{{ url_for('product.delete', id=product.id) }}" method="post" class="w-1/2" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="w-full bg-red-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300 flex items-center justify-center">
+                            <i class="fas fa-trash-alt mr-2"></i> Delete
+                        </button>
+                    </form>
+                </div>
+                {% else %}
+                <a href="{{ url_for('auth.login') }}" class="block text-center bg-indigo-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition duration-300">
+                    Sign in to Purchase
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Related Products -->
+{% if related_products %}
+<section class="mb-8">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Related Products</h2>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for related in related_products %}
+        <a href="{{ url_for('product.detail', id=related.id) }}" class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300 ease-in-out">
+            <div class="h-48 bg-gray-200 overflow-hidden">
+                {% if related.images %}
+                <img src="{{ url_for('static', filename='uploads/products/' + related.images[0].file_name) }}" 
+                     alt="{{ related.title }}" class="w-full h-full object-cover">
+                {% else %}
+                <div class="w-full h-full flex items-center justify-center bg-gray-200">
+                    <i class="fas fa-image text-gray-400 text-4xl"></i>
+                </div>
+                {% endif %}
+            </div>
+            <div class="p-4">
+                <h3 class="font-semibold text-lg text-gray-800 mb-2 truncate">{{ related.title }}</h3>
+                <div class="flex justify-between items-center">
+                    <p class="text-indigo-600 font-bold">${{ related.price }}</p>
+                    <span class="text-sm text-gray-500">{{ related.condition }}</span>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% block scripts %}
+<script>
+    function changeMainImage(src, thumbnail) {
+        // Update main image
+        document.getElementById('main-image').src = src;
+        
+        // Update thumbnails
+        const thumbnails = document.querySelectorAll('.border');
+        thumbnails.forEach(thumb => {
+            thumb.classList.remove('border-indigo-500');
+            thumb.classList.add('border-gray-200');
+        });
+        
+        // Highlight selected thumbnail
+        thumbnail.classList.remove('border-gray-200');
+        thumbnail.classList.add('border-indigo-500');
+    }
+</script>
+{% endblock %}
+{% endblock %}
