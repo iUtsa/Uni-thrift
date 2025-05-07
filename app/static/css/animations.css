@@ -1,0 +1,628 @@
+/* animations.css - Extended animations for Student Marketplace */
+
+/* Hover effects for category cards */
+.category-card {
+    transition: all 0.3s ease;
+    transform: translateY(0);
+}
+
+.category-card:hover {
+    transform: translateY(-10px);
+}
+
+.category-card:hover .icon-container {
+    background-color: #c7d2fe; /* Lighter indigo */
+    transform: scale(1.1);
+}
+
+.icon-container {
+    transition: all 0.3s ease;
+}
+
+/* Pulse animation for featured items */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+    }
+}
+
+.featured-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #4f46e5;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+}
+
+/* Fade-in animation for page elements */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease forwards;
+}
+
+.fade-in-delay-1 {
+    opacity: 0;
+    animation: fadeIn 0.6s ease forwards;
+    animation-delay: 0.2s;
+}
+
+.fade-in-delay-2 {
+    opacity: 0;
+    animation: fadeIn 0.6s ease forwards;
+    animation-delay: 0.4s;
+}
+
+.fade-in-delay-3 {
+    opacity: 0;
+    animation: fadeIn 0.6s ease forwards;
+    animation-delay: 0.6s;
+}
+
+/* Button animations */
+.btn-primary {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(255,255,255,0.2);
+    transition: all 0.3s ease;
+    z-index: -1;
+}
+
+.btn-primary:hover:after {
+    width: 100%;
+}
+
+/* Product card hover effects */
+.product-card {
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.product-card .price {
+    transition: all 0.3s ease;
+}
+
+.product-card:hover .price {
+    transform: scale(1.1);
+    color: #4338ca; /* Darker indigo */
+}
+
+/* Cart icon shake animation */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.cart-added {
+    animation: shake 0.5s ease;
+}
+
+/* Star rating hover effect */
+.star-rating i {
+    transition: all 0.2s ease;
+}
+
+.star-rating:hover i {
+    transform: scale(1.2);
+    color: #f59e0b; /* Amber */
+}
+
+
+/* animations.css - Extended animations and hover effects for Student Marketplace */
+
+/* ===== General Animations ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+  
+  @keyframes shimmer {
+    0% { background-position: -100% 0; }
+    100% { background-position: 100% 0; }
+  }
+  
+  /* Page load animations */
+  .fade-in {
+    opacity: 0;
+    animation: fadeIn 0.8s ease forwards;
+  }
+  
+  .fade-in-delay-1 {
+    opacity: 0;
+    animation: fadeIn 0.8s ease forwards;
+    animation-delay: 0.2s;
+  }
+  
+  .fade-in-delay-2 {
+    opacity: 0;
+    animation: fadeIn 0.8s ease forwards;
+    animation-delay: 0.4s;
+  }
+  
+  .fade-in-delay-3 {
+    opacity: 0;
+    animation: fadeIn 0.8s ease forwards;
+    animation-delay: 0.6s;
+  }
+  
+  /* ===== Header & Navigation ===== */
+  /* Logo hover effect */
+  header .logo {
+    transition: transform 0.3s ease;
+  }
+  
+  header .logo:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Search bar focus animation */
+  header form input[type="text"] {
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+  
+  header form input[type="text"]:focus {
+    border-color: #818cf8;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    transform: translateY(-2px);
+  }
+  
+  /* Navigation hover animations */
+  header nav a {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  header nav a:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: white;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+  }
+  
+  header nav a:hover:after {
+    width: 80%;
+  }
+  
+  /* Dropdown menu animation */
+  .group:hover .group-hover\:block {
+    animation: fadeIn 0.3s ease;
+  }
+  
+  /* ===== Category Cards ===== */
+  .category-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+  }
+  
+  .category-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .icon-container {
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .category-card:hover .icon-container {
+    background-color: #c7d2fe;
+    transform: scale(1.15) rotate(5deg);
+  }
+  
+  .category-card:hover .icon-container i {
+    animation: pulse 1s infinite;
+    color: #4f46e5;
+  }
+  
+  /* Icon pulsing animation on hover */
+  .category-card .icon-container:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: all 0.5s ease;
+  }
+  
+  .category-card:hover .icon-container:after {
+    border-color: #818cf8;
+    transform: scale(1.2);
+    opacity: 0;
+    animation: ripple 1.5s infinite;
+  }
+  
+  @keyframes ripple {
+    from { transform: scale(1); opacity: 1; }
+    to { transform: scale(1.5); opacity: 0; }
+  }
+  
+  /* ===== Product Cards ===== */
+  .product-card {
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 1;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+  }
+  
+  /* Image zoom effect */
+  .product-card .h-48 {
+    overflow: hidden;
+  }
+  
+  .product-card .h-48 img {
+    transition: transform 0.5s ease;
+  }
+  
+  .product-card:hover .h-48 img {
+    transform: scale(1.1);
+  }
+  
+  /* Price animation */
+  .product-card .price {
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .product-card:hover .price {
+    transform: scale(1.1);
+    color: #4338ca;
+  }
+  
+  /* Featured tag animation */
+  .featured-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #4f46e5;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    z-index: 10;
+    box-shadow: 0 2px 10px rgba(79, 70, 229, 0.3);
+    animation: pulse 2s infinite;
+  }
+  
+  /* ===== Button Animations ===== */
+  .btn-primary {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-primary:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: all 0.5s ease;
+  }
+  
+  .btn-primary:hover:after {
+    left: 100%;
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .btn-primary:active {
+    transform: translateY(1px);
+  }
+  
+  /* ===== Testimonial Cards ===== */
+  .bg-white.p-6.rounded-lg.shadow-md {
+    transition: all 0.3s ease;
+    position: relative;
+    top: 0;
+  }
+  
+  .bg-white.p-6.rounded-lg.shadow-md:hover {
+    top: -10px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Star rating animations */
+  .text-yellow-400 i {
+    transition: all 0.3s ease;
+    transform: translateY(0);
+  }
+  
+  .bg-white.p-6.rounded-lg.shadow-md:hover .text-yellow-400 i {
+    color: #f59e0b;
+  }
+  
+  .bg-white.p-6.rounded-lg.shadow-md:hover .text-yellow-400 i:nth-child(1) {
+    animation: float 1s infinite 0.1s;
+  }
+  .bg-white.p-6.rounded-lg.shadow-md:hover .text-yellow-400 i:nth-child(2) {
+    animation: float 1s infinite 0.2s;
+  }
+  .bg-white.p-6.rounded-lg.shadow-md:hover .text-yellow-400 i:nth-child(3) {
+    animation: float 1s infinite 0.3s;
+  }
+  .bg-white.p-6.rounded-lg.shadow-md:hover .text-yellow-400 i:nth-child(4) {
+    animation: float 1s infinite 0.4s;
+  }
+  .bg-white.p-6.rounded-lg.shadow-md:hover .text-yellow-400 i:nth-child(5) {
+    animation: float 1s infinite 0.5s;
+  }
+  
+  /* Profile image subtle animation */
+  .h-12.w-12.rounded-full {
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+  
+  .bg-white.p-6.rounded-lg.shadow-md:hover .h-12.w-12.rounded-full {
+    border-color: #818cf8;
+    box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.2);
+  }
+  
+  /* ===== CTA Section Animation ===== */
+  .bg-indigo-600.rounded-lg {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .bg-indigo-600.rounded-lg:before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 80%);
+    transform: rotate(0deg);
+    transition: all 1s ease;
+  }
+  
+  .bg-indigo-600.rounded-lg:hover:before {
+    transform: rotate(15deg);
+  }
+  
+  /* ===== Footer Animations ===== */
+  footer .hover\:text-white {
+    transition: all 0.3s ease;
+  }
+  
+  footer .hover\:text-white:hover {
+    transform: scale(1.2);
+  }
+  
+  /* ===== Responsive Animations ===== */
+  @media (max-width: 768px) {
+    /* Reduce animation intensity on mobile */
+    .category-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .product-card:hover {
+      transform: translateY(-4px);
+    }
+    
+    .bg-white.p-6.rounded-lg.shadow-md:hover {
+      top: -5px;
+    }
+  }
+  
+  /* ===== Additional Animations ===== */
+  /* Progress bar animation for featured products */
+  .product-card.relative:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 0;
+    background: linear-gradient(90deg, #4f46e5, #818cf8);
+    z-index: 1;
+    transition: width 0.3s ease;
+  }
+  
+  .product-card.relative:hover:before {
+    width: 100%;
+  }
+  
+  /* Shimmer effect for new product tags */
+  .featured-tag[style*="background-color: #10b981"] {
+    background: linear-gradient(90deg, #10b981, #34d399, #10b981);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+  
+  /* Hero section subtle animations */
+  .bg-indigo-600.rounded-lg img {
+    transition: all 0.5s ease;
+  }
+  
+  .bg-indigo-600.rounded-lg:hover img {
+    transform: translateY(-10px) scale(1.03);
+  }
+  
+  /* Cursor animation for search bar */
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  
+  header form input[type="text"]:focus::after {
+    content: '|';
+    animation: blink 1s infinite;
+  }
+  
+  /* Flash message animations */
+  [role="alert"] {
+    animation: slideInRight 0.5s ease;
+  }
+  
+  /* Flash message dismiss button animation */
+  [role="alert"] button {
+    transition: all 0.3s ease;
+  }
+  
+  [role="alert"] button:hover {
+    transform: rotate(90deg);
+  }
+
+  /* Automatic Slideshow Styles */
+.slideshow-container {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .slideshow-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  
+  .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    object-fit: cover;
+  }
+  
+  .slide:first-child {
+    position: relative; /* First image sets the height */
+  }
+  
+  .slide.active {
+    opacity: 1;
+    z-index: 1;
+  }
+  
+  /* Slide indicators */
+  .slideshow-indicators {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .indicator {
+    width: 10px;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .indicator.active {
+    background-color: white;
+    transform: scale(1.2);
+  }
+  
+  /* Animation for slide transitions */
+  @keyframes fadeInOut {
+    0% { opacity: 0; }
+    20% { opacity: 1; }
+    33.33% { opacity: 1; }
+    53.33% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  
+  /* Initialize animation for all slides with different delays */
+  .slide-animated {
+    animation: fadeInOut 12s infinite;
+    animation-fill-mode: both;
+  }
+  
+  .slide-animated:nth-child(1) {
+    animation-delay: 0s;
+  }
+  
+  .slide-animated:nth-child(2) {
+    animation-delay: 4s;
+  }
+  
+  .slide-animated:nth-child(3) {
+    animation-delay: 8s;
+  }
+  
+  .slide-animated:nth-child(4) {
+    animation-delay: 12s;
+  }

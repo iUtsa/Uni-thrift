@@ -204,3 +204,61 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+// Simple automatic slideshow
+document.addEventListener('DOMContentLoaded', function() {
+    const slideshows = document.querySelectorAll('.slideshow-container');
+    
+    slideshows.forEach(function(slideshow) {
+      const slides = slideshow.querySelectorAll('.slide');
+      const indicators = slideshow.querySelectorAll('.indicator');
+      let currentSlide = 0;
+      const slideInterval = 4000; // Change slides every 4 seconds
+      
+      // Two options to run the slideshow:
+      
+      // Option 1: Using CSS animations (simpler, add these classes)
+      slides.forEach(slide => {
+        slide.classList.add('slide-animated');
+      });
+      
+      // Option 2: Using JavaScript for more control
+      function showSlide(n) {
+        // Hide all slides
+        slides.forEach(slide => {
+          slide.classList.remove('active');
+        });
+        
+        // Remove active class from all indicators
+        indicators.forEach(indicator => {
+          indicator.classList.remove('active');
+        });
+        
+        // Show the current slide
+        slides[n].classList.add('active');
+        
+        // Highlight current indicator
+        if (indicators.length > 0) {
+          indicators[n].classList.add('active');
+        }
+      }
+      
+      // Initialize the first slide
+      showSlide(currentSlide);
+      
+      // Set up automatic slideshow
+      setInterval(function() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+      }, slideInterval);
+      
+      // Optional: Add click event to indicators
+      indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+          currentSlide = index;
+          showSlide(currentSlide);
+        });
+      });
+    });
+  });

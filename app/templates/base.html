@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %} - Student Marketplace</title>
+    <title>{% block title %}{% endblock %} - UniThrift</title>
     
     <!-- TailwindCSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,6 +13,8 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <!-- In base.html, add this after the main.css link -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
     
     {% block styles %}{% endblock %}
 </head>
@@ -23,7 +25,7 @@
             <!-- Logo -->
             <a href="{{ url_for('main.index') }}" class="flex items-center text-2xl font-bold">
                 <i class="fas fa-graduation-cap mr-2"></i>
-                <span>Student Marketplace</span>
+                <span>UniThrift</span>
             </a>
             
             <!-- Search Bar -->
